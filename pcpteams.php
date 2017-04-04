@@ -226,7 +226,7 @@ function pcpteams_civicrm_buildForm_CRM_PCP_Form_Campaign(&$form) {
   $form->addElement('checkbox', 'pcp_team_notifications', ts('Notifications'), ts('Notify me by e-mail when a new contribution is received.'));
 
   // this is a team page, but no parent.
-  if ($pcp_team_info->type_id == CIVICRM_PCPTEAM_TYPE_TEAM && empty($pcp_team_info->civicrm_pcp_id_parent)) {
+  if (!empty($pcp_team_info) && $pcp_team_info->type_id == CIVICRM_PCPTEAM_TYPE_TEAM && empty($pcp_team_info->civicrm_pcp_id_parent)) {
     $members = pcpteams_getmembers($pcp_id, TRUE);
     foreach($members as $dao => $member) {
       $member_status_radios = array();
