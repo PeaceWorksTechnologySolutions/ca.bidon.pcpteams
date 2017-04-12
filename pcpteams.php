@@ -227,10 +227,12 @@ function pcpteams_civicrm_buildForm_CRM_PCP_Form_Campaign(&$form) {
   $form->addElement('checkbox', 'pcp_team_notifications', ts('Notifications'));
 
   // this is a team page, but no parent.
+  $pcp_team_member_count = 0;
   if (!empty($pcp_team_info) && $pcp_team_info->type_id == CIVICRM_PCPTEAM_TYPE_TEAM && empty($pcp_team_info->civicrm_pcp_id_parent)) {
     $members = pcpteams_getmembers($pcp_id, TRUE);
     foreach($members as $dao => $member) {
       $member_status_radios = array();
+      $pcp_team_member_count += 1;
 
       $member_status_elements = array(
         CIVICRM_PCPTEAM_STATUS_APPROVED => array(
@@ -254,6 +256,7 @@ function pcpteams_civicrm_buildForm_CRM_PCP_Form_Campaign(&$form) {
       $form->addGroup($member_status_radios, "pcp_team_member_status_$dao", ts('%1', array($member['title'])));
     }
   }
+  $smarty->assign('pcp_team_member_count', $pcp_team_member_count);
 
   $form->setDefaults($defaults);
 
@@ -269,7 +272,7 @@ function pcpteams_civicrm_buildForm_CRM_PCP_Form_Campaign(&$form) {
     'weight' => 99,
   ));
 
-  // Add a template to the form region for the e-mail notification option
+  // Add a template to the form region for the status of team members
   CRM_Core_Region::instance('pcp-form-campaign')->add(array(
     'template' => 'CRM/Pcpteams/CampaignPageSetup-member-status.tpl',
     'weight' => 100,
