@@ -184,10 +184,10 @@ function pcpteams_civicrm_buildForm_CRM_PCP_Form_Campaign(&$form) {
 
     $elements = array(
       CIVICRM_PCPTEAM_TYPE_INDIVIDUAL => array(
-        'label' => ts('Individual'),
+        'label' => ts('This page represents an individual'),
       ),
       CIVICRM_PCPTEAM_TYPE_TEAM => array(
-        'label' => ts('Team'),
+        'label' => ts('This page represents a team'),
       ),
     );
 
@@ -224,7 +224,7 @@ function pcpteams_civicrm_buildForm_CRM_PCP_Form_Campaign(&$form) {
   }
 
   // Checkbox to receive contribution notifications
-  $form->addElement('checkbox', 'pcp_team_notifications', ts('Notifications'), ts('Notify me by e-mail when a new contribution is received.'));
+  $form->addElement('checkbox', 'pcp_team_notifications', ts('Notifications'));
 
   // this is a team page, but no parent.
   if (!empty($pcp_team_info) && $pcp_team_info->type_id == CIVICRM_PCPTEAM_TYPE_TEAM && empty($pcp_team_info->civicrm_pcp_id_parent)) {
@@ -397,6 +397,8 @@ function pcpteams_civicrm_pageRun(&$page) {
           ));
         }
       }
+      $resources = CRM_Core_Resources::singleton();
+      $resources->addStyleFile('ca.bidon.pcpteams', 'pcpteams.css');
 
       break;
   }
